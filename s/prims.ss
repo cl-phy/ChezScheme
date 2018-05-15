@@ -1837,14 +1837,14 @@
                       [(fx<= b1 #x7f) ; one-byte encoding
                        (string-set! s j (integer->char b1))
                        (loop (fx+ i 1) (fx+ j 1))]
-                      [(fx<= #xc2 b1 #xdf) ; two-byte encoding
+                      [(fx<= #xc0 b1 #xdf) ; two-byte encoding
                        (if (fx< i (fx- n 1)) ; have at least two bytes?
                            (let ([b2 (bytevector-u8-ref bv (fx+ i 1))])
                              (if (fx= (fxsrl b2 6) #b10) ; second byte a continuation byte?
                                  (begin
                                    (string-set! s j
                                      (let ([x (fxlogor (fxsll (fxlogand b1 #b11111) 6) (fxlogand b2 #b111111))])
-                                       (if (fx<= x #x7f) #\x8ffd (integer->char x))))
+                                       (if (fx<= x #x7f) #\xfffd (integer->char x))))
                                    (loop (fx+ i 2) (fx+ j 1)))
                                 ; second byte is not a continuation byte
                                  (begin
