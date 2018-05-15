@@ -315,11 +315,11 @@ int main(int argc, const char *argv[]) {
   }
   if (libdirs == 0) libdirs = getenv("CHEZSCHEMELIBDIRS");
   if (libdirs != 0) {
-    CALL1("library-directories", Sstring(libdirs));
+    CALL1("library-directories", Sstring_utf8(libdirs, -1));
   }
   if (libexts == 0) libexts = getenv("CHEZSCHEMELIBEXTS");
   if (libexts != 0) {
-    CALL1("library-extensions", Sstring(libexts));
+    CALL1("library-extensions", Sstring_utf8(libexts, -1));
   }
   if (compile_imported_libraries != 0) {
     CALL1("compile-imported-libraries", Strue);

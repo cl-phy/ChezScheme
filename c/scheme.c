@@ -830,7 +830,7 @@ static int set_load_binary(iptr n) {
   if (SYMVAL(S_G.scheme_version_id) == sunbound) return 0; // set by back.ss
   ptr make_load_binary = SYMVAL(S_G.make_load_binary_id);
   if (Sprocedurep(make_load_binary)) {
-    S_G.load_binary = Scall3(make_load_binary, Sstring(bd[n].path), Sstring_to_symbol("load"), Sfalse);
+    S_G.load_binary = Scall3(make_load_binary, Sstring_utf8(bd[n].path, -1), Sstring_to_symbol("load"), Sfalse);
     return 1;
   }
   return 0;
@@ -1125,7 +1125,7 @@ extern void Senable_expeditor(history_file) const char *history_file; {
   Scall1(S_symbol_value(Sstring_to_symbol("$enable-expeditor")), Strue);
   if (history_file != (const char *)0)
     Scall1(S_symbol_value(Sstring_to_symbol("$expeditor-history-file")),
-           Sstring(history_file));
+           Sstring_utf8(history_file, -1));
 }
 
 extern INT Sscheme_start(argc, argv) INT argc; const char *argv[]; {
@@ -1146,7 +1146,7 @@ extern INT Sscheme_start(argc, argv) INT argc; const char *argv[]; {
 
   arglist = Snil;
   for (i = argc - 1; i > 0; i -= 1)
-    arglist = Scons(Sstring(argv[i]), arglist);
+    arglist = Scons(Sstring_utf8(argv[i], -1), arglist);
 
   p = S_symbol_value(S_intern((const unsigned char *)"$scheme"));
   if (!Sprocedurep(p)) {
@@ -1180,7 +1180,7 @@ static INT run_script(const char *who, const char *scriptfile, INT argc, const c
 
   arglist = Snil;
   for (i = argc - 1; i > 0; i -= 1)
-    arglist = Scons(Sstring(argv[i]), arglist);
+    arglist = Scons(Sstring_utf8(argv[i], -1), arglist);
 
   p = S_symbol_value(S_intern((const unsigned char *)"$script"));
   if (!Sprocedurep(p)) {
@@ -1190,7 +1190,7 @@ static INT run_script(const char *who, const char *scriptfile, INT argc, const c
 
   S_initframe(tc, 3);
   S_put_arg(tc, 1, Sboolean(programp));
-  S_put_arg(tc, 2, Sstring(scriptfile));
+  S_put_arg(tc, 2, Sstring_utf8(scriptfile, -1));
   S_put_arg(tc, 3, arglist);
   p = boot_call(tc, p, 3);
 

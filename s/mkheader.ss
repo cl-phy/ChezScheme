@@ -334,6 +334,7 @@
         (export "ptr" "Smake_uninitialized_string" "(iptr)")
         (export "ptr" "Sstring" "(const char *)")
         (export "ptr" "Sstring_of_length" "(const char *, iptr)")
+        (export "ptr" "Sstring_utf8" "(const char*, iptr)")
         (export "ptr" "Sbox" "(ptr)")
         (export "ptr" "Sinteger" "(iptr)")
         (export "ptr" "Sunsigned" "(uptr)")
